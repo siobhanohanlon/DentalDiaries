@@ -16,7 +16,16 @@ export class AppointmentList extends React.Component {
     //Delete Appointment
     DeleteAppointment(e) {
         e.preventDefault();
-        axios.delete('http://localhost:3000/api/appointments/' + this.props.appointment._id)
+
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+
+        axios.delete('http://localhost:3000/api/appointments/' + this.props.appointment._id, {
+            headers: {
+                // Add Authorization header
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(() => {
                 if (this.props.Reload) {this.props.Reload();}
             })

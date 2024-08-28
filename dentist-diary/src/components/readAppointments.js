@@ -27,8 +27,20 @@ export class ReadAppointment extends React.Component {
 
     //Connect and get data
     componentDidMount() {
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+
+        // Set up the headers for the request
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        //console.log("Authorization Header:", config.headers.Authorization);
+
         //Makes HTTP Request to get json
-        axios.get('http://localhost:3000/api/appointments')
+        axios.get('http://localhost:3000/api/appointments', config)
             //When Request Completed
             .then((response) => {
                 // Update State

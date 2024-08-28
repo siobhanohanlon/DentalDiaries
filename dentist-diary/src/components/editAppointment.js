@@ -27,9 +27,16 @@ export function EditAppointment(props) {
 
     //useEffect Hook is similar componentDidMount
     useEffect(() => {
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+
         //axios is a promised based web client
         //make a HTTP Request with GET method and pass as part of the url.
-        axios.get("http://localhost:3000/api/appointments/" + id)
+        axios.get("http://localhost:3000/api/appointments/" + id, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Add Authorization header
+            }
+        })
             .then((response) => {
                 //Check if Page is loading
                 setLoading(false);
@@ -51,6 +58,9 @@ export function EditAppointment(props) {
     const submitAppointment = (event) => {
         event.preventDefault();
 
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+
         //New Appointment Data Assigned
         const changeAppointment = {
             //id: id,
@@ -60,7 +70,12 @@ export function EditAppointment(props) {
         };
 
         //Save Data
-        axios.put("http://localhost:3000/api/appointments/" + id, changeAppointment)
+        axios.put("http://localhost:3000/api/appointments/" + id, changeAppointment, {
+            headers: {
+                // Add Authorization header
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((res) => {
                 console.log(res.data);
                 navigate('/readAppointment');

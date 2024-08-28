@@ -28,6 +28,9 @@ export class AddAppointment extends React.Component {
     submitAppointment(e) {
         e.preventDefault();
 
+        // Get the token from localStorage
+        const token = localStorage.getItem('token');
+
         //Print to Console
         console.log(`Button Clicked!\nPatient: ${this.state.patient}\nDentist: ${this.state.dentist}\nAppointment Date: ${this.state.date}`);
 
@@ -38,7 +41,12 @@ export class AddAppointment extends React.Component {
         }
 
         //Generate HTTP Request 
-        axios.post("http://localhost:3000/api/appointments", appointments)
+        axios.post("http://localhost:3000/api/appointments", appointments, {
+            headers: {
+                // Add Authorization header
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(console.log("HTTP Request Sent"))
             .catch((error) => {
                 console.log(error.message)

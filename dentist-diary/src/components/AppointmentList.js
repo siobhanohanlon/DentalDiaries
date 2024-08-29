@@ -38,8 +38,10 @@ export class AppointmentList extends React.Component {
     render() {
         const { appointment } = this.props;
 
-        // Format the date
-        const formattedDate = new Date(appointment.date).toLocaleDateString('en-GB'); // 'en-GB' for dd/mm/yyyy
+        // Format the date and time
+        const startDate = new Date(appointment.date);
+        const formattedDate = startDate.toLocaleDateString('en-GB');
+        const formattedTime = startDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 
         return (
             <div className="AppointmentItem">
@@ -54,6 +56,8 @@ export class AppointmentList extends React.Component {
                         <Card.Body>
                             <Card.Title>Patient: {this.props.appointment.patient}</Card.Title>
                             <Card.Text>Appointment Date: {formattedDate}</Card.Text>
+                            <Card.Text>Appointment Time: {formattedTime}</Card.Text>
+                            <Card.Text>Appointment Duration: {this.props.appointment.duration}</Card.Text>
                         </Card.Body>
 
                         <Card.Footer>

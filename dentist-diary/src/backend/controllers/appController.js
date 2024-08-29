@@ -19,13 +19,26 @@ exports.getAppointments = async(req, res) => {
 exports.createAppointment = async (req, res) => {
     try {
         //console.log("Received appointment data:", req.body);
+        const { patient, dentist, startDate, duration } = req.body;
 
-        // Convert date to string if it's not already a string
-        const formattedDate = new Date(req.body.date).toISOString();
+        // Check if date is valid
+        const start = new Date(startDate);
+        if (isNaN(start.getTime())) {
+            throw new RangeError('Invalid date format');
+        }
+
+        // Calculate endDate from startDate and duration
+        const endDate = new Date(start.getTime() + duration * 60000);
+
+        // Convert startDate to ISO string
+        //const formattedStartDate = start.toISOString();
+
         const newAppointment = await Appointment.create({
             patient: req.body.patient,
             dentist: req.body.dentist,
-            date: formattedDate
+            date: start,
+            endDate,
+            duration
         });
 
         //console.log("Stored appointment:", newAppointment);
@@ -64,15 +77,29 @@ exports.getAppointmentById = async (req, res) => {
 exports.updateAppointmentById = async(req, res) => {
     //console.log("Appointment #" + req.params.id + " has been Updated");
 
-    // Convert date to string if it's not already a string
-    const formattedDate = new Date(req.body.date).toISOString();
-
     // Update Appointment
     try{
-        const data = await Appointment.findByIdAndUpdate(req.params.id, {patient: req.body.patient, 
-        dentist: req.body.dentist, date: formattedDate}, { new: true });
+        const { patient, dentist, startDate, duration } = req.body;
 
-        res.send(data);
+        // Convert date to date object
+        const formattedStartDate = new Date(startDate);
+        if (isNaN(formattedStartDate.getTime())) {
+            return res.status(400).send("Invalid date format");
+        }
+
+        // Calculate endDate from startDate and duration
+        const endDate = new Date(formattedStartDate.getTime() + duration * 60000);
+
+        const data = await Appointment.findByIdAndUpdate(req.params.id, { patient,
+            dentist, startDate: formattedStartDate, endDate, duration }, { new: true }
+        );
+
+         // Check if appointment was found and updated
+        if (!data) {
+            return res.status(404).send("Appointment not found");
+        }
+
+        res.json(data);
     } catch (error) {
         // Log to Console
         console.error("Error getting appointment by Id:", error);

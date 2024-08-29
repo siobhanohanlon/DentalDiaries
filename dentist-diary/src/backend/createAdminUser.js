@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./models/user'); // Adjust the path as necessary
 
+// This was used once to create an admin user with a hashed password of 'pass'
 async function createAdminUser() {
     try {
         await mongoose.connect('mongodb+srv://admin:admin@dental-app-cluster.hy9r4.mongodb.net/', {

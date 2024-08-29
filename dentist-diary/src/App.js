@@ -12,9 +12,10 @@ import Navbar from 'react-bootstrap/Navbar';
 
 //Import Components
 import { AddAppointment } from './components/addAppointment';
-import { EditAppointment } from './components/editAppointment.js';
-import Login from './components/login';
+import { EditAppointment } from './components/editAppointment';
+import { Login } from './components/login';
 import { ReadAppointment } from './components/readAppointments';
+import { WeeklyCalendar } from './components/weeklyCalendar';
 
 //Import Router
 import {
@@ -65,7 +66,7 @@ class App extends React.Component {
                 <Container>
                   <Navbar.Brand href="/">Appointment Index</Navbar.Brand>
                   <Nav className="me-auto">
-                    <Nav.Link href="/readAppointment">Home</Nav.Link>
+                    <Nav.Link href="/weeklyCalendar">Home</Nav.Link>
                     <Nav.Link href="/addAppointment">Add Appointment</Nav.Link>
                     <Nav.Link onClick={this.handleLogout} href="/">Logout</Nav.Link>
                   </Nav>
@@ -85,6 +86,7 @@ class App extends React.Component {
                   <Route path="/readAppointment" element={<ReadAppointment />}></Route>
                   <Route path="/addAppointment" element={<AddAppointment />}></Route>
                   <Route path="/editAppointment/:fId" element={<EditAppointment />}></Route>
+                  <Route path="/weeklyCalendar" element={<WeeklyCalendar />} />
                 </>
               )}
             </Routes>

@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 
 // Define Schemas
 const appointmentSchema = new mongoose.Schema({
-    patient: String,
-    dentist: String,
-    date: String
+    patient: { type: String, required: true },
+    dentist: { type: String, required: true },
+    date: { type: Date, required: true },
+    endDate: { type: Date },
+    duration: { type: Number }
 });
 
 //Model to interact with database

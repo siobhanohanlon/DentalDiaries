@@ -8,6 +8,7 @@ import { Appointments } from "./appointments";
 export class ReadAppointment extends React.Component {
     //Constructor
     constructor() {
+        // Call parent
         super();
 
         //Object that will hold all data for class
@@ -25,7 +26,7 @@ export class ReadAppointment extends React.Component {
         this.componentDidMount();
     }
 
-    //Connect and get data
+    // Connect and get data
     componentDidMount() {
         // Get the token from localStorage
         const token = localStorage.getItem('token');
@@ -39,16 +40,18 @@ export class ReadAppointment extends React.Component {
 
         //console.log("Authorization Header:", config.headers.Authorization);
 
-        //Makes HTTP Request to get json
+        // Make a GET request
         axios.get('http://localhost:3000/api/appointments', config)
             //When Request Completed
             .then((response) => {
+
                 // Update State
                 this.setState({ appointments: response.data });
             }
             )
             //If Request returns error
             .catch((error) => {
+                // Log error
                 console.log(error.message);
             });
     }

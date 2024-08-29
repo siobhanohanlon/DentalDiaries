@@ -5,10 +5,13 @@ import Button from "react-bootstrap/Button";
 import Card from 'react-bootstrap/Card';
 import { Link } from "react-router-dom";
 
+// Define the AppointmentList
 export class AppointmentList extends React.Component {
     //Constructor
     constructor(props) {
+        // Call parent class
         super(props);
+
         //Delete Appointment Binds
         this.DeleteAppointment = this.DeleteAppointment.bind(this);
     }
@@ -20,6 +23,7 @@ export class AppointmentList extends React.Component {
         // Get the token from localStorage
         const token = localStorage.getItem('token');
 
+        // Make an HTTP DELETE request
         axios.delete('http://localhost:3000/api/appointments/' + this.props.appointment._id, {
             headers: {
                 // Add Authorization header
@@ -27,15 +31,18 @@ export class AppointmentList extends React.Component {
             }
         })
             .then(() => {
+                // Refresh after deletion
                 if (this.props.Reload) {this.props.Reload();}
             })
             .catch((error) => {
-                console.error('Error deleting appointment:', error); // Handle error
+                // Log any errors to console
+                console.error('Error deleting appointment:', error);
             });
     }
 
     //Render Page
     render() {
+        // Destructure appointment
         const { appointment } = this.props;
 
         // Format the date and time

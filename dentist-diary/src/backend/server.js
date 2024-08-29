@@ -35,6 +35,7 @@ app.use(cors());
 app.use('/api/appointments', appRoutes);
 app.use('/api', loginRoutes);
 
+// Port
 app.listen(port, () => {
   console.log(`Dentist app listening on port ${port}`);
 });

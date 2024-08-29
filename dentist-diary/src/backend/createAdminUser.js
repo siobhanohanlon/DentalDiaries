@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+
+// Model
 const User = require('./models/user'); // Adjust the path as necessary
 
 // This was used once to create an admin user with a hashed password of 'pass'
 async function createAdminUser() {
     try {
+        // Connect to the MongoDB database using Mongoose
         await mongoose.connect('mongodb+srv://admin:admin@dental-app-cluster.hy9r4.mongodb.net/', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -27,11 +30,15 @@ async function createAdminUser() {
             password: hashedPassword,
         });
 
+        // Save the new admin user to the database
         await adminUser.save();
         console.log('Admin user created successfully.');
+
     } catch (error) {
+        // Log if any error
         console.error('Error creating admin user:', error);
     } finally {
+        // Close the database connection once the operation is complete
         mongoose.connection.close();
     }
 }

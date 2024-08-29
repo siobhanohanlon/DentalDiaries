@@ -2,9 +2,13 @@
 import axios from 'axios';
 import React from 'react';
 
+// Define the Login
 export class Login extends React.Component {
+    // Constructor
     constructor(props) {
+        // Call parent
         super(props);
+
         this.state = {
             username: '',
             password: '',
@@ -12,17 +16,26 @@ export class Login extends React.Component {
         };
     }
 
+    // Method to handle login
     handleLogin = async (e) => {
         e.preventDefault();
+
         const { username, password } = this.state;
+
         try {
+            // Make a POST request
             const response = await axios.post('http://localhost:3000/api/login', { username, password });
+
+            // Save the received token in local storage- this will give authorisation
             localStorage.setItem('token', response.data.token);
             this.props.onLogin();
         } catch (err) {
-            setError('Invalid username or password');}
+            // Show error
+            this.setState({ error: 'Invalid username or password' });
     };
+}
 
+    // Methods to handle changes in username or password
     handleUsernameChange = (e) => {
         this.setState({ username: e.target.value });
     };
@@ -31,6 +44,7 @@ export class Login extends React.Component {
         this.setState({ password: e.target.value });
     };
 
+    // Display
     render() {
         const { username, password, error } = this.state;
 

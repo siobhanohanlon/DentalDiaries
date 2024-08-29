@@ -4,9 +4,11 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+// Define the AddAppointment component class
 export class AddAppointment extends React.Component {
     //Constructor
     constructor() {
+        // Call parent class
         super();
 
         //Bind to Event
@@ -17,7 +19,7 @@ export class AddAppointment extends React.Component {
         this.onChangeDate = this.onChangeDate.bind(this);
         this.onChangeDuration = this.onChangeDuration.bind(this);
 
-        //Set Value to blank
+        // Set Value to blank/defualt
         this.state = {
             patient: '',
             dentist: '',
@@ -29,6 +31,7 @@ export class AddAppointment extends React.Component {
 
     //Submit
     submitAppointment(e) {
+        // Prevent from default form submission
         e.preventDefault();
 
         // Get the token from localStorage
@@ -38,6 +41,7 @@ export class AddAppointment extends React.Component {
         console.log(`Button Clicked!\nPatient: ${this.state.patient}\nDentist: ${this.state.dentist}\n
             Appointment Date: ${this.state.date}\nDuration: ${this.state.duration}`);
 
+        // Prepare the appointment data
         const appointments = {
             patient: this.state.patient,
             dentist: this.state.dentist,
@@ -54,11 +58,14 @@ export class AddAppointment extends React.Component {
             }
         })
             .then(response => {
+                // Log response
                 console.log("HTTP Request Sent", response.data);
+
                 // Notify parent about the new appointment
                 this.props.onAppointmentAdded(response.data);
             })
             .catch((error) => {
+                // Log any errors
                 console.log(error.message)
             });
 
@@ -71,28 +78,28 @@ export class AddAppointment extends React.Component {
         });
     }
 
-    //Change Patient
+    //Change Patient- by input
     onChangePatient(e) {
         this.setState({
             patient: e.target.value
         })
     }
 
-    //Change Dentist
+    //Change Dentist- by input
     onChangeDentist(e) {
         this.setState({
             dentist: e.target.value
         })
     }
 
-    //Change Appointment Date
+    //Change Appointment Date- by input
     onChangeDate(e) {
         this.setState({
             date: e
         })
     }
 
-    // Change Duration
+    // Change Duration- by input
     onChangeDuration(e) {
         this.setState({ duration: parseInt(e.target.value, 10) });
     }

@@ -8,6 +8,7 @@ npm install react-datepicker/dist/react-datepicker.css
 npm install bootstrap
 npm install jsonwebtoken
 npm install bcrypt
+npm install moment
 
 # To Start
     - Open Cmd in Project Folder
